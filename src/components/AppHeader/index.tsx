@@ -1,9 +1,12 @@
-import './styles.scss';
+import logo from "../../assets/logo.png";
+import LoginForm from "../LoginForm";
+import "./styles.scss";
 
 function AppHeader() {
   return (
     <header className="header">
-      <img src="/assets/logo.png" className="header-logo" alt="Logo oRecipes" />
+      <img src={logo} className="header-logo" alt="Logo oRecipes" />
+      <LoginForm />
     </header>
   );
 }

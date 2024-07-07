@@ -22,11 +22,11 @@
     transition: color .2s, box-shadow .4s;
     color: rgba(255,255,255,.75);
 
-    &:hover:not(&--active) {
+    &:hover:not(&.active) {
       color: white;
     }
 
-    &--active {
+    &.active {
       color: v.$color;
       box-shadow: inset -3px 0 0 v.$color;
     }

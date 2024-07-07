@@ -16,3 +16,10 @@ export interface Ingredient {
   unit: string
   name: string
 }
+
+
+// export interface FormData {
+//   email: string;
+//   password: string;
+//   pseudo?: string;
+// }

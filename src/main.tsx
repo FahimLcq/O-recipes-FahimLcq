@@ -1,19 +1,54 @@
-import { Provider } from 'react-redux';
-// On importe ReactDom qui nous permettra d'injecter notre application dans le DOM
-import ReactDOM from 'react-dom/client';
-// On importe notre composant principal
-import App from './components/App/App';
-// On importe notre fichier de style global
-import './styles/index.scss';
+import React from "react";
+import { Provider } from "react-redux";
+import ReactDOM from "react-dom/client";
 
-import store from './store';
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 
-// Je créer un root pour mon application (a partir d'un élément HTML)
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+import App, { recipesLoader } from "./components/App/App";
+import Error from "./components/Error";
+import Recipe from "./components/Recipe";
+import Home from "./components/Home";
+import "./styles/index.scss";
 
-// On injecte notre application dans le DOM
-root.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+import store from "./store";
+import Favorites, { favLoader } from "./components/Favorites";
+
+//2 routes:
+//- Home
+//-Recipe
+//Layout:
+//-App => Menu + Children(Home/Recipe)
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    errorElement: <Error />,
+    loader: recipesLoader,
+    children: [
+      { index: true, element: <Home /> },
+      { path: "/recipe/:slug", element: <Recipe /> },
+      {
+        path: "/favorites",
+        loader: localStorage.getItem("token") && favLoader,
+        element: localStorage.getItem("pseudo") ? (
+          <Favorites />
+        ) : (
+          <Navigate to="/" />
+        ),
+      },
+    ],
+  },
+]);
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  </React.StrictMode>
 );
